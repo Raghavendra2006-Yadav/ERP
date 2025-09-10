@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ERP Student Management</title>
+  
+  <!-- Razorpay Checkout Script -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  
+  <style>
+    /* Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      background: #f9f9f9;
+      color: #333;
+    }
+
+
+    /* Navbar */
+    header {
+      background: rgba(11, 33, 76, 0.95);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 50px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header h1 {
+      font-size: 26px;
+      font-weight: bold;
+    }
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      color: #ff9800;
+    }
+    .page-content {
+      display: none;
+    }
+    .page-content.active {
+      display: block;
+      animation: fadeIn 0.7s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+
+    /* Hero Section - Home */
+    #home-page .hero {
+      height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      background: linear-gradient(to right, #0b214c, #061329);
+      color: white;
+    }
+    #home-page .hero h2 {
+      font-size: 55px;
+      margin-bottom: 20px;
+    }
+    #home-page .hero p {
+      font-size: 20px;
+      margin-bottom: 30px;
+      max-width: 650px;
+    }
+    .btn {
+      background: #ff9800;
+      padding: 15px 35px;
+      border: none;
+      border-radius: 30px;
+      font-size: 18px;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 4px 15px rgba(255,152,0,0.4);
+    }
+    .btn:hover {
+      background: #e68900;
+      transform: scale(1.05);
+    }
+
+
+    /* Features Section - Home */
+    #home-features {
+      padding: 80px 20px;
+      text-align: center;
+    }
+    #home-features h2 {
+      font-size: 38px;
+      margin-bottom: 50px;
+      color: #0b214c;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+    }
+    .card {
+      background: white;
+      padding: 25px 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+    }
+    .card h3 {
+      margin-bottom: 10px;
+      color: #0b214c;
+    }
+    .card p {
+      opacity: 0.85;
+    }
+
+
+    /* Stats Section */
+    .stats {
+      background: linear-gradient(to right, #0b214c, #061329);
+      color: white;
+      padding: 70px 20px;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      text-align: center;
+    }
+    .stat {
+      margin: 20px;
+    }
+    .stat h3 {
+      font-size: 40px;
+      color: #ff9800;
+      margin-bottom: 10px;
+    }
+
+
+    /* Mission Section */
+    #mission-page .hero {
+      min-height: 42vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(to right,#0b214c,#061329);
+      color:#fff;
+    }
+    #mission-page .hero h2 {
+      font-size: 44px;
+      margin-bottom: 16px;
+    }
+    #mission-page .hero p.sub {
+      max-width: 760px;
+      font-size: 18px;
+      opacity: .9;
+    }
+    .wrap {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .mission-card {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.08);
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+    .mission-card h3 {
+      font-size: 22px;
+      margin-bottom: 12px;
+      color: #0b214c;
+    }
+    .mission-text {
+      font-size: 18px;
+    }
+    #mission-page ul {
+      list-style-type: disc;
+      margin-left: 20px;
+    }
+    #mission-page ul li {
+      margin-bottom: 5px;
+    }
+    
+    /* Features Page Section */
+    #features-page .features-header {
+      background-color: #1a73e8;
+      color: #fff;
+      padding: 25px 0;
+      text-align: center;
+    }
+    #features-page .features-header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+    #features-page .features-section {
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+    #features-page .feature-card {
+      background-color: #fff;
+      padding: 30px 20px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    #features-page .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    }
+    #features-page .feature-card img {
+      width: 80px;
+      margin-bottom: 20px;
+    }
+    #features-page .feature-card h3 {
+      margin: 10px 0;
+      font-size: 1.4rem;
+      color: #1a73e8;
+    }
+    #features-page .feature-card p {
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.5;
+    }
+
+
+    /* About Section */
+    #about-page .hero {
+      background: linear-gradient(135deg, #0b214c 0%, #061329 100%);
+      color: white;
+      text-align: center;
+      padding: 100px 20px;
+      clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    }
+    #about-page .hero h2 {
+      font-size: 50px;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    #about-page .hero p {
+      font-size: 20px;
+      max-width: 700px;
+      margin: 0 auto 30px auto;
+    }
+    .about-content {
+      max-width: 1200px;
+      margin: -80px auto 50px auto;
+      padding: 50px 20px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .about-content h2 {
+      font-size: 38px;
+      color: #0b214c;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .about-content p {
+      font-size: 18px;
+      line-height: 1.8;
+      margin-bottom: 30px;
+      text-align: center;
+      color: #555;
+    }
+    .about-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+    .about-card {
+      background: linear-gradient(145deg, #0b214c, #061329);
+      color: white;
+      padding: 25px 20px;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      text-align: center;
+      transition: transform 0.4s, box-shadow 0.4s;
+    }
+    .about-card:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    }
+    .about-card h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #ff9800;
+    }
+    .about-card p {
+      font-size: 16px;
+      opacity: 0.9;
+    }
+
+
+    /* FAQ Section Styles */
+    #faq-page .hero {
+      min-height: 40vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(to right, #0b214c, #061329);
+      color: #fff;
+    }
+    #faq-page .hero h2 {
+      font-size: 44px;
+      margin-bottom: 16px;
+    }
+    #faq-page .hero p.sub {
+      max-width: 760px;
+      font-size: 18px;
+      opacity: .9;
+    }
+
+
+    .faq-container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+
+    .faq-item {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+
+    .faq-item:hover {
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+
+    .faq-question {
+      padding: 25px;
+      background: white;
+      border: none;
+      width: 100%;
+      text-align: left;
+      font-size: 18px;
+      font-weight: 600;
+      color: #0b214c;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+
+    .faq-question:hover {
+      background: #f8f9fa;
+      color: #ff9800;
+    }
+
+
+    .faq-question .plus-icon {
+      font-size: 24px;
+      font-weight: bold;
+      transition: transform 0.3s ease;
+      color: #ff9800;
+    }
+
+
+    .faq-question.active .plus-icon {
+      transform: rotate(45deg);
+    }
+
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+      background: #f8f9fa;
+    }
+
+
+    .faq-answer.active {
+      max-height: 1000px;
+      transition: max-height 0.5s ease-in;
+    }
+
+
+    .faq-answer-content {
+      padding: 25px;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #555;
+    }
+
+
+    .faq-answer-content p {
+      margin-bottom: 15px;
+    }
+
+
+    .faq-answer-content ul {
+      margin: 15px 0;
+      padding-left: 20px;
+    }
+
+
+    .faq-answer-content ul li {
+      margin-bottom: 8px;
+    }
+
+
+    .faq-answer-content strong {
+      color: #0b214c;
+    }
+
+
+    /* Contact Section */
+    #contact-page .contact-section {
+      max-width: 1100px;
+      margin: 80px auto;
+      padding: 20px;
+      display: flex;
+      gap: 50px;
+      flex-wrap: wrap;
+    }
+
+
+    #contact-page .contact-info, #contact-page .contact-form {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      flex: 1;
+      min-width: 300px;
+    }
+
+
+    #contact-page .contact-info h2, #contact-page .contact-form h2 {
+      color: #0b214c;
+      margin-bottom: 25px;
+    }
+    #contact-page .contact-info p {
+      margin-bottom: 15px;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    #contact-page .contact-info img {
+      width: 20px;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+    #contact-page .contact-form input, #contact-page .contact-form textarea {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    #contact-page .contact-form textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+    #contact-page .contact-form button {
+      background: #ff9800;
+      color: white;
+      padding: 15px 35px;
+      border: none;
+      border-radius: 30px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    #contact-page .contact-form button:hover {
+      background: #e68900;
+      transform: scale(1.05);
+    }
+    @media(max-width:768px){
+      #contact-page .contact-section { flex-direction: column; gap: 30px; }
+    }
+
+    /* Payment Section Styles - NEW SECTION */
+    #payment-page .payment-hero {
+      background: linear-gradient(135deg, #0b214c 0%, #061329 100%);
+      color: white;
+      text-align: center;
+      padding: 80px 20px;
+    }
+    
+    #payment-page .payment-hero h2 {
+      font-size: 44px;
+      margin-bottom: 16px;
+    }
+    
+    #payment-page .payment-hero p {
+      font-size: 18px;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .payment-container {
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+    
+    .fee-structure, .payment-form {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .fee-structure h3, .payment-form h3 {
+      color: #0b214c;
+      margin-bottom: 25px;
+      font-size: 24px;
+    }
+    
+    .fee-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 10px;
+    }
+    
+    .fee-item:last-child {
+      border-bottom: none;
+      font-weight: bold;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+    
+    .fee-item span:first-child {
+      color: #555;
+    }
+    
+    .fee-item span:last-child {
+      color: #0b214c;
+      font-weight: 600;
+    }
+    
+    .payment-form input, .payment-form select {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+    
+    .payment-form input:focus, .payment-form select:focus {
+      outline: none;
+      border-color: #0b214c;
+    }
+    
+    .payment-form label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 500;
+    }
+    
+    .pay-now-btn {
+      background: linear-gradient(135deg, #ff9800, #e68900);
+      color: white;
+      padding: 18px 40px;
+      border: none;
+      border-radius: 30px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+      margin-top: 10px;
+    }
+    
+    .pay-now-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 152, 0, 0.4);
+    }
+    
+    .pay-now-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .payment-methods {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    .payment-method {
+      text-align: center;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 10px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .payment-method:hover {
+      border-color: #ff9800;
+      background: #fff7e6;
+    }
+    
+    .payment-method img {
+      width: 40px;
+      margin-bottom: 8px;
+    }
+    
+    .payment-method span {
+      display: block;
+      font-size: 14px;
+      color: #666;
+    }
+    
+    .transaction-history {
+      margin-top: 40px;
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .transaction-history h3 {
+      color: #0b214c;
+      margin-bottom: 20px;
+    }
+    
+    .transaction-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .transaction-item:last-child {
+      border-bottom: none;
+    }
+    
+    .transaction-status {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    .status-success {
+      background: #d4edda;
+      color: #155724;
+    }
+    
+    .status-pending {
+      background: #fff3cd;
+      color: #856404;
+    }
+    
+    .status-failed {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    
+    @media (max-width: 768px) {
+      .payment-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+
+
+    /* Login Modal Styles */
+    .login-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 2000;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+
+    .login-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      width: 90%;
+      max-width: 450px;
+      overflow: hidden;
+    }
+
+
+    .login-header {
+      background: linear-gradient(135deg, #0b214c, #061329);
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+      position: relative;
+    }
+
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      transition: background 0.3s;
+    }
+
+
+    .close-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+
+    .login-header h2 {
+      margin: 0;
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
+
+
+    .login-header p {
+      margin: 0;
+      opacity: 0.9;
+      font-size: 14px;
+    }
+
+
+    .login-body {
+      padding: 40px 30px;
+    }
+
+
+    .user-type-tabs {
+      display: flex;
+      margin-bottom: 30px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+
+    .tab-btn {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      background: #f5f5f5;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+
+
+    .tab-btn.active {
+      background: #0b214c;
+      color: white;
+    }
+
+
+    .tab-btn:hover:not(.active) {
+      background: #e0e0e0;
+    }
+
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+
+    .form-group {
+      position: relative;
+    }
+
+
+    .form-group input {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+      background: #fafafa;
+    }
+
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #0b214c;
+      background: white;
+    }
+
+
+    .form-group label {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      color: #666;
+      transition: all 0.3s;
+      pointer-events: none;
+    }
+
+
+    .form-group input:focus + label,
+    .form-group input:not(:placeholder-shown) + label {
+      top: -10px;
+      left: 10px;
+      font-size: 12px;
+      color: #0b214c;
+      background: white;
+      padding: 0 5px;
+    }
+
+
+    .login-btn {
+      background: linear-gradient(135deg, #ff9800, #e68900);
+      color: white;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255, 152, 0, 0.4);
+    }
+
+
+    .forgot-password {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+
+    .forgot-password a {
+      color: #0b214c;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+
+    .forgot-password a:hover {
+      text-decoration: underline;
+    }
+
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .login-container {
+        width: 95%;
+        margin: 10px;
+      }
+      
+      .login-body {
+        padding: 30px 20px;
+      }
+      
+      .user-type-tabs {
+        flex-direction: column;
+      }
+    }
+
+
+    /* Footer */
+    footer {
+      background: #061329;
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+      margin-top: 50px;
+    }
+    footer a {
+      color: #ff9800;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+
+  <!-- Navbar -->
+  <header>
+    <h1>EduVault</h1>
+    <nav>
+      <a href="#" onclick="showPage('home-page'); return false;">Home</a>
+      <a href="#" onclick="showPage('mission-page'); return false;">Mission</a>
+      <a href="#" onclick="showPage('features-page'); return false;">Features</a>
+      <a href="#" onclick="showPage('about-page'); return false;">About</a>
+      <a href="#" onclick="showPage('faq-page'); return false;">FAQ</a>
+      <a href="#" onclick="showPage('payment-page'); return false;">Payment</a>
+      <a href="#" onclick="showPage('contact-page'); return false;">Contact</a>
+    </nav>
+  </header>
+
+
+  <!-- Page Containers -->
+  <div id="home-page" class="page-content active">
+    <!-- Home Section -->
+    <section class="hero">
+      <h2>Seamless Student Management – From Admissions to Analytics</h2>
+      <p>A unified ERP platform for colleges and universities to manage student records, courses, fees, attendance, communication, and performance reports. Simplify administration, empower faculty, and keep students & parents connected—anytime, anywhere.</p>
+      <button class="btn" onclick="openLogin()">Explore Now</button>
+    </section>
+
+
+    <!-- Features Section (from index.html) -->
+    <section id="home-features">
+      <h2>Key Features of Our ERP</h2>
+      <div class="feature-grid">
+        <div class="card">
+          <h3>🎓 Student Information</h3>
+          <p>Manage personal details, academic records, marksheets, and attendance in one place.</p>
+        </div>
+        <div class="card">
+          <h3>📚 Course & Academics</h3>
+          <p>Enroll students in courses, manage timetables, and streamline exam scheduling.</p>
+        </div>
+        <div class="card">
+          <h3>💰 Fee & Finance</h3>
+          <p>Track payments, scholarships, concessions, and pending dues with automated reminders.</p>
+        </div>
+        <div class="card">
+          <h3>🏠 Hostel & Transport</h3>
+          <p>Allocate hostel rooms, manage bus routes, and issue digital passes for smooth logistics.</p>
+        </div>
+        <div class="card">
+          <h3>📢 Communication</h3>
+          <p>Send notices, circulars, and updates directly to students and parents via portal access.</p>
+        </div>
+        <div class="card">
+          <h3>📊 Reports & Analytics</h3>
+          <p>Generate academic performance reports, attendance summaries, and at-risk student alerts.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Stats Section (from index.html) -->
+    <section class="stats">
+      <div class="stat">
+        <h3>50+</h3>
+        <p>Institutions</p>
+      </div>
+      <div class="stat">
+        <h3>10K+</h3>
+        <p>Students Managed</p>
+      </div>
+      <div class="stat">
+        <h3>99.9%</h3>
+        <p>Record Accuracy</p>
+      </div>
+      <div class="stat">
+        <h3>24/7</h3>
+        <p>Access Anywhere</p>
+      </div>
+    </section>
+  </div>
+
+
+  <div id="mission-page" class="page-content">
+    <!-- Mission Section -->
+    <section class="hero">
+      <h2>Our Mission</h2>
+      <p class="sub">Building a smarter, transparent, and future-ready education ecosystem.</p>
+    </section>
+    <main class="wrap">
+      <div class="mission-card">
+        <h3>Why We Exist</h3>
+        <p class="mission-text">
+          <strong>Our mission is to revolutionize the way educational institutions operate</strong>
+          by providing an intelligent, all-in-one ERP system that simplifies student management, enhances transparency,
+          and improves efficiency. We aim to empower administrators with seamless control over academics, finance, and operations,
+          while giving faculty the tools to track progress and support students better. By connecting students, parents, and teachers
+          through a unified platform, we strive to create a smarter, more transparent, and future-ready education ecosystem.
+        </p>
+      </div>
+      <div class="mission-card">
+        <h3>What Our ERP Covers</h3>
+        <ul>
+          <li>Student Information: profiles, marksheets, attendance</li>
+          <li>Courses & Academics: enrollment, timetable, exams</li>
+          <li>Fees & Finance: payments, scholarships, dues alerts</li>
+          <li>Hostel & Transport: room allocation, bus routes & passes</li>
+          <li>Communication: notices, circulars, parent/student portal</li>
+          <li>Reports & Analytics: performance, attendance, at-risk alerts</li>
+        </ul>
+      </div>
+    </main>
+  </div>
+  
+  <div id="features-page" class="page-content">
+    <!-- Features Page -->
+    <section class="features-header">
+      <h1>College Dashboard Features</h1>
+    </section>
+    <section class="features-section">
+      <div class="feature-card">
+        <img src="https://img.icons8.com/color/96/000000/student-male.png" alt="Student Info">
+        <h3>Student Information</h3>
+        <p>Manage student profiles including basic details, academic records, marksheets, and attendance.</p>
+      </div>
+      <div class="feature-card">
+        <img src="https://img.icons8.com/color/96/graduation-cap.png" alt="Course Management">
+        <h3>Course & Academic Management</h3>
+        <p>Handle course enrollments, class schedules, exam management, and academic updates efficiently.</p>
+      </div>
+      <div class="feature-card">
+        <img src="https://img.icons8.com/color/96/000000/money.png" alt="Finance">
+        <h3>Fee & Finance</h3>
+        <p>Track fee payments, scholarships, concessions, and get alerts on pending dues.</p>
+      </div>
+      <div class="feature-card">
+        <img src="https://img.icons8.com/color/96/000000/bus.png" alt="Hostel & Transport">
+        <h3>Hostel & Transport</h3>
+        <p>Manage hostel room allocations, bus routes, and passes (optional module for transport & accommodation).</p>
+      </div>
+      <div class="feature-card">
+        <img src="https://img.icons8.com/color/96/conference.png" alt="Communication">
+        <h3>Communication</h3>
+        <p>Post notices, circulars, announcements, and provide portals for students and parents to stay updated.</p>
+      </div>
+      <div class="feature-card">
+        <img src="https://img.icons8.com/color/96/000000/combo-chart.png" alt="Reports">
+        <h3>Reports & Analytics</h3>
+        <p>Generate student performance reports, attendance analytics, and alerts for at-risk or drop-out students.</p>
+      </div>
+    </section>
+  </div>
+
+
+  <div id="about-page" class="page-content">
+    <!-- About Page -->
+    <section class="hero">
+      <h2>About ERP Student Management</h2>
+      <p>Streamlining academic management with a unified platform for student records, courses, attendance, fees, communication, and analytics.</p>
+    </section>
+    <section class="about-content">
+      <h2>Why Choose Our ERP?</h2>
+      <p>Our ERP system empowers colleges and universities to efficiently manage all aspects of student life and administration while keeping faculty, students, and parents connected in real time.</p>
+      <div class="about-cards">
+        <div class="about-card">
+          <h3>Student Management</h3>
+          <p>Access complete student profiles, academic records, marksheets, and attendance in one place.</p>
+        </div>
+        <div class="about-card">
+          <h3>Academic & Courses</h3>
+          <p>Streamline course enrollment, class schedules, and exam planning efficiently.</p>
+        </div>
+        <div class="about-card">
+          <h3>Fees & Finance</h3>
+          <p>Track payments, scholarships, concessions, and get automated reminders for pending dues.</p>
+        </div>
+        <div class="about-card">
+          <h3>Hostel & Transport</h3>
+          <p>Manage hostel rooms, bus routes, and digital passes for smooth logistics.</p>
+        </div>
+        <div class="about-card">
+          <h3>Communication</h3>
+          <p>Send notices, circulars, and updates directly to students and parents.</p>
+        </div>
+        <div class="about-card">
+          <h3>Reports & Analytics</h3>
+          <p>Generate detailed reports on student performance, attendance, and at-risk students.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+  <!-- FAQ Page -->
+  <div id="faq-page" class="page-content">
+    <section class="hero">
+      <h2>FAQ's - Education ERP</h2>
+      <p class="sub">Frequently asked questions about our Education ERP system</p>
+    </section>
+    <div class="faq-container">
+      
+      <!-- FAQ Item 1 -->
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(1)">
+          <span>What is Education ERP?</span>
+          <span class="plus-icon">+</span>
+        </button>
+        <div class="faq-answer" id="faq-answer-1">
+          <div class="faq-answer-content">
+            <p><strong>Education ERP software is designed to efficiently streamline all operations and activities within educational institutions</strong>, effectively managing vast amounts of data and information associated with academic and administrative tasks across campuses or groups of institutions.</p>
+            <p>Education ERP software optimizes operations, managing vast academic and administrative data across institutions seamlessly.</p>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- FAQ Item 2 -->
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(2)">
+          <span>Why do you need education ERP software?</span>
+          <span class="plus-icon">+</span>
+        </button>
+        <div class="faq-answer" id="faq-answer-2">
+          <div class="faq-answer-content">
+            <p>An education ERP system automates and streamlines all the functioning of academic and administrative tasks in an institution. It provides the following advantages:</p>
+            <ul>
+              <li><strong>Simplifies admission process</strong></li>
+              <li><strong>Automates fee payments</strong></li>
+              <li><strong>Centralized data management</strong></li>
+              <li><strong>Cost-effectiveness</strong></li>
+              <li><strong>Quick decision making</strong></li>
+              <li><strong>Data security</strong></li>
+            </ul>
+            <p>There are many more advantages of using an ERP and EduVault knows how to provide them to you in a very effective and efficient way.</p>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- FAQ Item 3 -->
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(3)">
+          <span>What are the benefits of using an ERP for an educational institution?</span>
+          <span class="plus-icon">+</span>
+        </button>
+        <div class="faq-answer" id="faq-answer-3">
+          <div class="faq-answer-content">
+            <p><strong>The education world is changing at pace using technological aspects</strong>, an effective and robust ERP system can especially help educational institutions to transform complete operations of the institution bringing automation and digital transformation of complete academic and administrative processes of the institution.</p>
+            <p>Key benefits include improved efficiency, better data management, enhanced communication, streamlined processes, and comprehensive reporting capabilities.</p>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- FAQ Item 4 -->
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(4)">
+          <span>Why is it important for educational institutions to opt for an ERP solution?</span>
+          <span class="plus-icon">+</span>
+        </button>
+        <div class="faq-answer" id="faq-answer-4">
+          <div class="faq-answer-content">
+            <p><strong>In this age of competition, institutions need to understand the real-time value of an ERP system</strong> and its usage that can lead to growth and efficiency. Educational institutions require ERP solutions to stay competitive, improve operational efficiency, and provide better services to students, faculty, and parents.</p>
+            <p>Modern institutions need digital transformation to meet today's educational standards and expectations.</p>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- FAQ Item 5 -->
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(5)">
+          <span>How to choose the best education ERP software for an institution?</span>
+          <span class="plus-icon">+</span>
+        </button>
+        <div class="faq-answer" id="faq-answer-5">
+          <div class="faq-answer-content">
+            <p>For this, it is most important that you must choose an ERP system that provides you with:</p>
+            <ul>
+              <li><strong>Business Intelligence</strong> – Dashboards, data, analytics, and reporting</li>
+              <li><strong>Integration</strong> – Moving data and/or a function from one application to another</li>
+              <li><strong>Security</strong> – Access, permissions, privacy, and compliance</li>
+              <li><strong>Configuration</strong> – Rule engine options driven by business process functionality</li>
+              <li><strong>Extensibility</strong> – Extending application capabilities without major code / architectural changes</li>
+            </ul>
+            <p><strong>EduVault Education ERP</strong> provides all the functionalities of a modern education ERP system with comprehensive features and reliable support.</p>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <!-- Payment Page - NEW SECTION ADDED -->
+  <div id="payment-page" class="page-content">
+    <section class="payment-hero">
+      <h2>Fee Payment Portal</h2>
+      <p>Secure online payment gateway for tuition fees, hostel charges, and other institutional fees</p>
+    </section>
+    
+    <div class="payment-container">
+      <div class="fee-structure">
+        <h3>Fee Structure</h3>
+        <div class="fee-item">
+          <span>Tuition Fee</span>
+          <span>₹50,000</span>
+        </div>
+        <div class="fee-item">
+          <span>Laboratory Fee</span>
+          <span>₹8,000</span>
+        </div>
+        <div class="fee-item">
+          <span>Library Fee</span>
+          <span>₹2,000</span>
+        </div>
+        <div class="fee-item">
+          <span>Sports Fee</span>
+          <span>₹1,500</span>
+        </div>
+        <div class="fee-item">
+          <span>Development Fee</span>
+          <span>₹5,000</span>
+        </div>
+        <div class="fee-item">
+          <span><strong>Total Amount</strong></span>
+          <span><strong>₹66,500</strong></span>
+        </div>
+        
+        <div class="payment-methods">
+          <div class="payment-method">
+            <img src="https://img.icons8.com/color/48/000000/bank-cards.png" alt="Card">
+            <span>Credit/Debit Card</span>
+          </div>
+          <div class="payment-method">
+            <img src="https://img.icons8.com/color/48/000000/bank.png" alt="Net Banking">
+            <span>Net Banking</span>
+          </div>
+          <div class="payment-method">
+            <img src="https://img.icons8.com/color/48/000000/wallet.png" alt="UPI">
+            <span>UPI/Wallets</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="payment-form">
+        <h3>Payment Details</h3>
+        <form id="paymentForm">
+          <label for="studentId">Student ID</label>
+          <input type="text" id="studentId" name="studentId" placeholder="Enter Student ID" required>
+          
+          <label for="studentName">Student Name</label>
+          <input type="text" id="studentName" name="studentName" placeholder="Enter Full Name" required>
+          
+          <label for="studentEmail">Email Address</label>
+          <input type="email" id="studentEmail" name="studentEmail" placeholder="Enter Email" required>
+          
+          <label for="studentPhone">Phone Number</label>
+          <input type="tel" id="studentPhone" name="studentPhone" placeholder="Enter Phone Number" required>
+          
+          <label for="feeType">Fee Type</label>
+          <select id="feeType" name="feeType" required>
+            <option value="">Select Fee Type</option>
+            <option value="semester">Semester Fee</option>
+            <option value="hostel">Hostel Fee</option>
+            <option value="transport">Transport Fee</option>
+            <option value="library">Library Fine</option>
+            <option value="exam">Exam Fee</option>
+          </select>
+          
+          <label for="amount">Amount (₹)</label>
+          <input type="number" id="amount" name="amount" placeholder="Enter Amount" required min="1">
+          
+          <button type="button" class="pay-now-btn" onclick="initiatePayment()">
+            Pay Now with Razorpay
+          </button>
+        </form>
+      </div>
+    </div>
+    
+    <div class="transaction-history">
+      <h3>Recent Transactions</h3>
+      <div id="transactionList">
+        <div class="transaction-item">
+          <div>
+            <strong>Semester Fee - Spring 2025</strong><br>
+            <small>Transaction ID: razorpay_pay_123456789</small>
+          </div>
+          <div>
+            <div>₹66,500</div>
+            <span class="transaction-status status-success">Success</span>
+          </div>
+        </div>
+        <div class="transaction-item">
+          <div>
+            <strong>Hostel Fee - Q1 2025</strong><br>
+            <small>Transaction ID: razorpay_pay_987654321</small>
+          </div>
+          <div>
+            <div>₹25,000</div>
+            <span class="transaction-status status-success">Success</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="contact-page" class="page-content">
+    <!-- Contact Section -->
+    <section class="contact-section">
+      <div class="contact-info">
+        <h2>Contact Us</h2>
+        <p>Whether you are a teacher, student, or parent, ERP is here to support you. Fill out the form and we will get back to you shortly.</p>
+        <p><img src="https://img.icons8.com/color/48/000000/email.png" alt="email"> araghavendra2006@gmail.com</p>
+        <p><img src="https://img.icons8.com/color/48/000000/phone.png" alt="phone"> +91-8317014698</p>
+        <p><img src="https://img.icons8.com/color/48/000000/phone.png" alt="phone"> +91-9525919519</p>
+      </div>
+      <div class="contact-form">
+        <h2>Send us a Message</h2>
+        <form>
+          <input type="text" name="name" placeholder="Your Name" required>
+          <input type="email" name="email" placeholder="Your Email Address" required>
+          <input type="tel" name="mobile" placeholder="Your Mobile Number" required>
+          <textarea name="message" placeholder="Your Message" required></textarea>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </section>
+  </div>
+
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="login-modal">
+    <div class="login-container">
+      <div class="login-header">
+        <button class="close-btn" onclick="closeLogin()">&times;</button>
+        <h2>EduVault Login</h2>
+        <p>Access your educational portal</p>
+      </div>
+      <div class="login-body">
+        <div class="user-type-tabs">
+          <button class="tab-btn active" onclick="switchTab('student')">Student</button>
+          <button class="tab-btn" onclick="switchTab('alumni')">Alumni</button>
+          <button class="tab-btn" onclick="switchTab('admin')">Admin</button>
+        </div>
+        
+        <form class="login-form" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <input type="text" id="loginId" placeholder=" " required>
+            <label for="loginId">Student ID / Email</label>
+          </div>
+          
+          <div class="form-group">
+            <input type="password" id="password" placeholder=" " required>
+            <label for="password">Password</label>
+          </div>
+          
+          <button type="submit" class="login-btn">Login to Dashboard</button>
+        </form>
+        
+        <div class="forgot-password">
+          <a href="#" onclick="showForgotPassword()">Forgot your password?</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Footer -->
+  <footer>
+    <h3>ERP Student Management</h3>
+    <p>Home | Features | About | Mission | FAQ | Payment | Contact</p>
+    <p>
+      <a href="https://www.facebook.com/ ">Facebook</a> | 
+      <a href="https://x.com/?&">Twitter</a> | 
+      <a href="https://www.linkedin.com/in/raghavendra-yadav-58255b324?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">LinkedIn</a>
+    </p>
+    <p>&copy; 2025 ERP Student. All rights reserved.</p>
+  </footer>
+
+
+  <script>
+    // Razorpay Configuration - Replace with your actual Key ID
+    const RAZORPAY_KEY_ID = 'rzp_test_RFu2SzOG69PVGU';
+ // Replace with your actual Razorpay Key ID
+
+    function showPage(pageId) {
+      const pages = document.querySelectorAll('.page-content');
+      pages.forEach(page => {
+        page.classList.remove('active');
+      });
+
+      const activePage = document.getElementById(pageId);
+      if (activePage) {
+        activePage.classList.add('active');
+      }
+    }
+
+    // FAQ Toggle Function
+    function toggleFAQ(faqNumber) {
+      const question = document.querySelector(`#faq-page .faq-item:nth-child(${faqNumber}) .faq-question`);
+      const answer = document.getElementById(`faq-answer-${faqNumber}`);
+      const plusIcon = question.querySelector('.plus-icon');
+      
+      // Toggle active class
+      question.classList.toggle('active');
+      answer.classList.toggle('active');
+      
+      // Close other FAQ items
+      const allQuestions = document.querySelectorAll('.faq-question');
+      const allAnswers = document.querySelectorAll('.faq-answer');
+      
+      allQuestions.forEach((q, index) => {
+        if (index + 1 !== faqNumber) {
+          q.classList.remove('active');
+          allAnswers[index].classList.remove('active');
+        }
+      });
+    }
+
+    // Login Modal Functions
+    let currentUserType = 'student';
+
+    function openLogin() {
+      document.getElementById('loginModal').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLogin() {
+      document.getElementById('loginModal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    function switchTab(userType) {
+      currentUserType = userType;
+      
+      // Update tab buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      
+      // Update form labels based on user type
+      const loginIdInput = document.getElementById('loginId');
+      const loginIdLabel = loginIdInput.nextElementSibling;
+      
+      switch(userType) {
+        case 'student':
+          loginIdLabel.textContent = 'Student ID / Email';
+          loginIdInput.placeholder = ' ';
+          break;
+        case 'alumni':
+          loginIdLabel.textContent = 'Alumni ID / Email';
+          loginIdInput.placeholder = ' ';
+          break;
+        case 'admin':
+          loginIdLabel.textContent = 'Admin Username';
+          loginIdInput.placeholder = ' ';
+          break;
+      }
+    }
+
+    function handleLogin(event) {
+      event.preventDefault();
+      
+      const loginId = document.getElementById('loginId').value;
+      const password = document.getElementById('password').value;
+      
+      // Here you can add your authentication logic
+      console.log(`Login attempt - Type: ${currentUserType}, ID: ${loginId}`);
+      
+      // For demo purposes, show success message
+      alert(`Welcome ${currentUserType}! Login successful.`);
+      closeLogin();
+      
+      // You can redirect to dashboard here:
+      // window.location.href = `/${currentUserType}-dashboard.html`;
+    }
+
+    function showForgotPassword() {
+      alert('Forgot password functionality will be implemented soon!');
+    }
+
+    // Razorpay Payment Functions - NEW FUNCTIONS ADDED
+    function initiatePayment() {
+      const form = document.getElementById('paymentForm');
+      const formData = new FormData(form);
+      
+      // Validate form
+      if (!form.checkValidity()) {
+        alert('Please fill all required fields');
+        return;
+      }
+      
+      const studentId = formData.get('studentId');
+      const studentName = formData.get('studentName');
+      const studentEmail = formData.get('studentEmail');
+      const studentPhone = formData.get('studentPhone');
+      const feeType = formData.get('feeType');
+      const amount = parseFloat(formData.get('amount'));
+      
+      if (amount < 1) {
+        alert('Please enter a valid amount');
+        return;
+      }
+      
+      const options = {
+        key: RAZORPAY_KEY_ID, // Your Razorpay Key ID
+        amount: amount * 100, // Amount in paisa (multiply by 100)
+        currency: 'INR',
+        name: 'EduVault - Student Management',
+        description: `${feeType} Payment for ${studentName}`,
+        image: 'https://img.icons8.com/color/96/000000/graduation-cap.png', // Your logo URL
+        prefill: {
+          name: studentName,
+          email: studentEmail,
+          contact: studentPhone
+        },
+        notes: {
+          student_id: studentId,
+          fee_type: feeType,
+          academic_year: '2024-25'
+        },
+        theme: {
+          color: '#0b214c'
+        },
+        handler: function (response) {
+          // Payment success callback
+          handlePaymentSuccess(response, {
+            studentId,
+            studentName,
+            studentEmail,
+            feeType,
+            amount
+          });
+        },
+        modal: {
+          ondismiss: function() {
+            console.log('Payment modal closed');
+          }
+        }
+      };
+      
+      const rzp = new Razorpay(options);
+      
+      rzp.on('payment.failed', function (response) {
+        handlePaymentFailure(response);
+      });
+      
+      rzp.open();
+    }
+    
+    function handlePaymentSuccess(response, paymentData) {
+      console.log('Payment Success:', response);
+      
+      // Add transaction to history
+      addTransactionToHistory({
+        id: response.razorpay_payment_id,
+        description: `${paymentData.feeType} - ${paymentData.studentName}`,
+        amount: paymentData.amount,
+        status: 'success'
+      });
+      
+      // Show success message
+      alert(`Payment Successful! 
+Payment ID: ${response.razorpay_payment_id}
+Amount: ₹${paymentData.amount}`);
+      
+      // Reset form
+      document.getElementById('paymentForm').reset();
+      
+      // Here you would typically send the payment details to your backend
+      // to verify and store the transaction
+      verifyPayment(response);
+    }
+    
+    function handlePaymentFailure(response) {
+      console.log('Payment Failed:', response);
+      
+      alert(`Payment Failed: ${response.error.description}`);
+      
+      // Add failed transaction to history
+      addTransactionToHistory({
+        id: response.error.metadata.payment_id || 'FAILED_' + Date.now(),
+        description: 'Payment Failed',
+        amount: 0,
+        status: 'failed'
+      });
+    }
+    
+    function addTransactionToHistory(transaction) {
+      const transactionList = document.getElementById('transactionList');
+      const statusClass = `status-${transaction.status}`;
+      
+      const transactionHTML = `
+        <div class="transaction-item">
+          <div>
+            <strong>${transaction.description}</strong><br>
+            <small>Transaction ID: ${transaction.id}</small>
+          </div>
+          <div>
+            <div>₹${transaction.amount.toLocaleString()}</div>
+            <span class="transaction-status ${statusClass}">${transaction.status.charAt(0).toUpperCase() + transaction.status.slice(1)}</span>
+          </div>
+        </div>
+      `;
+      
+      transactionList.insertAdjacentHTML('afterbegin', transactionHTML);
+    }
+    
+    function verifyPayment(response) {
+      // This function should send the payment details to your backend
+      // for verification with Razorpay servers
+      
+      const verificationData = {
+        razorpay_order_id: response.razorpay_order_id,
+        razorpay_payment_id: response.razorpay_payment_id,
+        razorpay_signature: response.razorpay_signature
+      };
+      
+      // Send to backend for verification
+      console.log('Payment verification data:', verificationData);
+    }
+    
+    // Auto-populate amount based on fee type
+    document.getElementById('feeType').addEventListener('change', function() {
+      const amountInput = document.getElementById('amount');
+      const feeAmounts = {
+        'semester': 66500,
+        'hostel': 25000,
+        'transport': 15000,
+        'library': 500,
+        'exam': 2000
+      };
+      
+      if (feeAmounts[this.value]) {
+        amountInput.value = feeAmounts[this.value];
+      }
+    });
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      const modal = document.getElementById('loginModal');
+      if (event.target === modal) {
+        closeLogin();
+      }
+    }
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closeLogin();
+      }
+    });
+  </script>
+  <script src="backend1.js"></script>
+</body>
+</html>
